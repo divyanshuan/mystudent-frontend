@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap");
+.main_detail {
+  width: 95%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.details_student {
+  width: 90%;
+  margin-top: 10px;
+  height: 90vh;
+  background-color: #fff;
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+}
+.image_sec {
+  height: 35vh;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 3px solid rgba(45, 45, 120, 0.447);
+}
+.img_student {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  padding-left: 2rem;
+}
+.image_sec img {
+  height: 200px;
+  width: 200px;
+  border-radius: 10px;
+}
+.main_had {
+  width: 70%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid rgba(121, 121, 121, 0.329);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+table {
+  border-collapse: collapse;
+  width: 90%;
+  border: 1px solid rgba(121, 121, 121, 0.329);
+}
+tr {
+  height: 30px;
+}
+.coln {
+  text-align: center;
+}
+.data {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 18px;
+  padding-left: 0.5rem;
+}
+th {
+  padding-left: 5px;
+}
+tr,
+td {
+  color: rgb(103, 76, 76);
+  text-align: left;
+  border: 1px solid #000;
+  font-size: 18px;
+  border: 1px solid rgba(121, 121, 121, 0.329);
+  font-family: "Noto Sans JP", sans-serif;
+}
+.table_head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  width: 90%;
+  text-align: left;
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: 500;
+}
+
+.detail_sec {
+  width: 100%;
+}
+.main_table {
+  height: 55vh;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid rgba(121, 121, 121, 0.329);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}

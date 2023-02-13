@@ -1,0 +1,65 @@
+.Fee {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  align-items: center;
+}
+.student_search {
+  width: 100%;
+}
+.search_form {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search_form input[type="text"] {
+  padding: 10px;
+  width: 200px;
+  border: 0;
+  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+}
+
+.main_fee {
+  padding: 10px 10px 20px 10px;
+  width: 100%;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  background-color: #fff;
+}
+.add_fee {
+  width: 100%;
+}
+.tablegrid p {
+  margin: 0;
+}
+.tablegrid {
+  height: 1.5rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  text-align: center;
+}
+.lastfees {
+  height: 50vh;
+  overflow-x: scroll;
+}
+
+.fee_data {
+  margin-top: 10px;
+  height: 2.5rem;
+  display: grid;
+  grid-template-columns: 3fr 3fr 2fr 2fr;
+  border-radius: 10px;
+  padding: 0 10px 0 10px;
+  background-color: #f6f5f9;
+  align-items: center;
+  text-align: left;
+}

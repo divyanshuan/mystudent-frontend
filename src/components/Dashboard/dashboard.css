@@ -1,0 +1,88 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Acme&display=swap");
+.main_bord {
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.nav_section {
+  width: 20%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f6f5f9;
+}
+.main_section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  height: 100vh;
+  background-color: #f6f5f9;
+}
+.profile_sec {
+  margin-top: 20px;
+  width: 90%;
+  height: 95%;
+  border-radius: 10px;
+  background-color: #fff;
+}
+.profile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  margin: 10px;
+}
+.profile img {
+  border-radius: 50%;
+}
+.user :nth-child(1) {
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+}
+.user :nth-child(2) {
+  padding: 0 3px 0 3px;
+  background-image: linear-gradient(to right, #0575e6 0%, #021b79 100%);
+  color: #fff;
+  border-radius: 3px;
+  width: max-content;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.button_sec {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.button_sec .btns {
+  padding-left: 10px;
+  height: 3rem;
+  text-decoration: none;
+  width: 85%;
+  display: grid;
+  border-radius: 10px;
+  grid-template-columns: 1fr 3fr;
+  z-index: 10;
+  box-shadow: rgba(215, 215, 215, 0.152) 0px 2px 8px 0px;
+  align-items: center;
+  color: rgb(79, 76, 76);
+  font-family: "Acme", sans-serif;
+  text-transform: uppercase;
+  position: relative;
+}
+.button_sec .btns:hover {
+  color: #2d4dc4;
+}
+.button_sec .active {
+  color: #263f98;
+}
+.logbtns {
+  margin-top: 52vh;
+}
