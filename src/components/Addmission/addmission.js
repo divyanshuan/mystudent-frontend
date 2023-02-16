@@ -16,6 +16,8 @@ import { Button } from "@mui/material";
 import Pagebanner from "../comman/pagebanner";
 
 import axios from "../../api/axios";
+import { Validation } from "../Validation/validate";
+import swal from "sweetalert";
 
 const Addmission = () => {
   const fields = {
@@ -61,7 +63,6 @@ const Addmission = () => {
   };
 
   const handleSubmit = async (e) => {
-    console.log(e);
     e.preventDefault();
 
     const allvalues = {
@@ -69,22 +70,26 @@ const Addmission = () => {
       added_by: "Tarwan",
       photo: picture,
     };
-    console.log(allvalues);
 
-    const formData = new FormData();
-    for (let value in allvalues) {
-      formData.append(value, allvalues[value]);
-    }
-    try {
-      const response = await axios.post("student/add", formData, {
-        headers: {
-          "cotent-Type": "application/json",
-        },
-      });
-      console.log(JSON.stringify(response?.data));
-      setValues(initialValues);
-    } catch (error) {
-      console.log(error);
+    const arr = Validation(allvalues);
+    if (!arr.state) {
+      swal(arr.msg, "", "error");
+    } else {
+      const formData = new FormData();
+      for (let value in allvalues) {
+        formData.append(value, allvalues[value]);
+      }
+      try {
+        const response = await axios.post("student/add", formData, {
+          headers: {
+            "cotent-Type": "application/json",
+          },
+        });
+        console.log(JSON.stringify(response?.data));
+        setValues(initialValues);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -209,18 +214,6 @@ const Addmission = () => {
                 </RadioGroup>
               </FormControl>
             </Grid>
-
-            {/* <Grid item xs={4}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DesktopDatePicker
-                  label="Date of Birth"
-                  inputFormat="DD/MM/YYYY"
-                  onChange={handleChangeDate}
-                  renderInput={(params) => <TextField {...params} />}
-                  value={date}
-                />
-              </LocalizationProvider>
-            </Grid> */}
             <Grid item xs={5}>
               <FormLabel id="filesubmit">Passport photo :</FormLabel>
               <input
@@ -380,7 +373,6 @@ const Addmission = () => {
               />
             </Grid>
           </Grid>
-          {/* <input type="submit" value="Submit" onSubmit={handleSubmit} /> */}
         </form>
         <Button variant="contained" type="submit" onClick={handleSubmit}>
           submit
