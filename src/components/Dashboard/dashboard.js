@@ -1,11 +1,25 @@
-import React from "react";
-import { Outlet, NavLink } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import "./dashboard.css";
+import { useAuthContextProvider } from "../../Context/Authcontext";
+import axios from "../../api/axios";
 
 const Dashboard = () => {
+  const user = useAuthContextProvider();
+  const navigate = useNavigate();
+  const getUser = (token) => {
+    axios
+      .get(`/user/me`, { headers: { Authorization: `Bearer ${token}` } })
+      .then((res) => user.updateUser(res?.data))
+      .catch((eror) => console.log(eror));
+  };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    getUser(token);
+  }, []);
   return (
     <div>
       <div className="main_bord">
@@ -19,8 +33,8 @@ const Dashboard = () => {
                 alt="pr"
               />
               <div className="user">
-                <p>Name</p>
-                <p>location</p>
+                <p>{user.userdata.name}</p>
+                <p>{user.userdata.location}</p>
               </div>
             </div>
             <div className="button_sec">
@@ -36,7 +50,15 @@ const Dashboard = () => {
                 <CurrencyRupeeIcon fontSize="large" />
                 <p>Add Fee </p>
               </NavLink>
-              <button className="btns logbtns">Logout</button>
+              <button
+                className="btns logbtns"
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  navigate("/");
+                }}
+              >
+                Logout
+              </button>
             </div>
           </div>
         </div>

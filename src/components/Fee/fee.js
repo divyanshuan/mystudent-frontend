@@ -103,8 +103,8 @@ const Fee = () => {
                 <p>{`${data.firstname} ${data.lastname}`} </p>
               </div>
               <div className="lastfees">
-                {fees.map((detail) => {
-                  return <Feecard key={detail.id} data={detail} />;
+                {fees.map((detail, idx) => {
+                  return <Feecard key={detail.id} data={detail} idx={idx} />;
                 })}
               </div>
               <div>

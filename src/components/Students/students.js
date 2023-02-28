@@ -9,8 +9,9 @@ const Students = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios
-      .get("student/getall")
+      .get("student/getall", { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => setData(res?.data.data))
       .catch((eror) => console.log(eror));
   }, []);
@@ -27,9 +28,13 @@ const Students = () => {
           <h3>Details</h3>
         </div>
         <div className="table_view">
-          {data.map((detail) => {
-            return <Studentcard key={detail.id} data={detail} />;
-          })}
+          {data != null ? (
+            data.map((detail) => {
+              return <Studentcard key={detail.id} data={detail} />;
+            })
+          ) : (
+            <h1>No Data</h1>
+          )}
         </div>
       </div>
     </div>

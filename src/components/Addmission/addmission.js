@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./addmission.css";
 import { mycourses, cateogry, batch, timing } from "./data";
-
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
@@ -14,17 +13,18 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { Button } from "@mui/material";
 import Pagebanner from "../comman/pagebanner";
-
 import axios from "../../api/axios";
 import { Validation } from "../Validation/validate";
 import swal from "sweetalert";
+import { useAuthContextProvider } from "../../Context/Authcontext";
 
 const Addmission = () => {
+  const user = useAuthContextProvider();
+
   const fields = {
     variant: "outlined",
     fullWidth: true,
   };
-
   const initialValues = {
     added_by: "",
     form_no: "",
@@ -52,7 +52,6 @@ const Addmission = () => {
   };
   const [values, setValues] = useState(initialValues);
   const [picture, setPicture] = useState("");
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
@@ -67,11 +66,12 @@ const Addmission = () => {
 
     const allvalues = {
       ...values,
-      added_by: "Tarwan",
+      added_by: user.userdata.location,
       photo: picture,
     };
 
     const arr = Validation(allvalues);
+    const token = localStorage.getItem("token");
     if (!arr.state) {
       swal(arr.msg, "", "error");
     } else {
@@ -83,10 +83,17 @@ const Addmission = () => {
         const response = await axios.post("student/add", formData, {
           headers: {
             "cotent-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         });
-        console.log(JSON.stringify(response?.data));
-        setValues(initialValues);
+        const data = response?.data;
+        console.log(response?.data);
+        if (data.code === 201) {
+          swal(data.message, "change form no", "error");
+        } else {
+          swal(data.message, "congratulation", "success");
+          setValues(initialValues);
+        }
       } catch (error) {
         console.log(error);
       }

@@ -5,18 +5,21 @@ import {
   createRoutesFromElements,
   RouterProvider,
 } from "react-router-dom";
+import AuthContextProvider from "./Context/Authcontext";
 import Addmission from "./components/Addmission/addmission";
 import Dashboard from "./components/Dashboard/dashboard";
 import Fee from "./components/Fee/fee";
 import Login from "./components/Login/login";
 import StudentDetails from "./components/StudentDetail/studentdetail";
 import Students from "./components/Students/students";
+import ProtectedRoute from "./components/Authcomponent/ProtectedRoute";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<Login />} />
-      <Route path="dashboard" element={<Dashboard />}>
+      
+      <Route path="dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}>
         <Route path="detail/:id" element={<StudentDetails />} />
         <Route path="admission" element={<Addmission />} />
         <Route path="students" element={<Students />} />
@@ -28,7 +31,9 @@ const router = createBrowserRouter(
 export default function App() {
   return (
     <div>
-      <RouterProvider router={router} />
+      <AuthContextProvider>
+        <RouterProvider router={router} />
+      </AuthContextProvider>
     </div>
   );
 }

@@ -1,14 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, TextField } from "@mui/material";
 import "./login.css";
 import Pagebanner from "../comman/pagebanner";
 import { useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import swal from "sweetalert";
+import { useAuthContextProvider } from "../../Context/Authcontext";
 
 const Login = () => {
-  const [logdata, setLogdata] = useState({ username: "", password: "" });
+  const user = useAuthContextProvider();
+  const [logdata, setLogdata] = useState({ name: "", password: "" });
   const navigate = useNavigate();
+  const checkLogin = () => {
+    const token = localStorage.getItem("token");
+
+    if (token && token !== undefined) {
+      navigate("/dashboard/admission");
+    }
+  };
+
   const handleChangelogin = (e) => {
     const { name, value } = e.target;
     setLogdata({ ...logdata, [name]: value });
@@ -16,20 +26,17 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (logdata.username === "test" && logdata.password === "test") {
-      navigate("/dashboard/admission");
-    }
     try {
-      const response = await axios.post('/', logdata, {
+      const response = await axios.post("/user/login", logdata, {
         headers: {
           "cotent-Type": "application/json",
         },
       });
       const res = response?.data;
-
+      console.log(res);
       if (res.code === 4000) {
         const acesstoken = response?.data?.access_token;
-        localStorage.setItem("access-token", acesstoken);
+        localStorage.setItem("token", acesstoken);
         swal("Welcome", " Sucessfully Loged in", "success");
         navigate("/dashboard/admission");
       } else {
@@ -40,6 +47,9 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    checkLogin();
+  });
   return (
     <>
       <div className="login_body">
@@ -48,9 +58,9 @@ const Login = () => {
           <form className="login_form">
             <TextField
               fullWidth
-              name="username"
+              name="name"
               label="Username"
-              value={logdata.username}
+              value={logdata.name}
               onChange={handleChangelogin}
             />
             <TextField
