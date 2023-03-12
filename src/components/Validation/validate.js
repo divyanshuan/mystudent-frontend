@@ -1,5 +1,4 @@
 export function Validation(props) {
-  console.log(props);
   if (props.form_no === "") {
     return { msg: "Form number is reqired", state: false };
   }
@@ -67,5 +66,9 @@ export function Validation(props) {
   if (props.matric_y === "") {
     return { msg: "Matric Year is reqired", state: false };
   }
+  if (props.photo === "" || props.photo === null || props.photo === undefined) {
+    return { msg: " Photo is reqired", state: false };
+  }
+
   return { msg: "all okk ", state: true };
 }

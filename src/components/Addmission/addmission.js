@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./addmission.css";
 import { mycourses, cateogry, batch, timing } from "./data";
 import Grid from "@mui/material/Grid";
@@ -20,6 +21,7 @@ import { useAuthContextProvider } from "../../Context/Authcontext";
 
 const Addmission = () => {
   const user = useAuthContextProvider();
+  const navigate = useNavigate();
 
   const fields = {
     variant: "outlined",
@@ -87,7 +89,6 @@ const Addmission = () => {
           },
         });
         const data = response?.data;
-        console.log(response?.data);
         if (data.code === 201) {
           swal(data.message, "change form no", "error");
         } else {
@@ -95,7 +96,11 @@ const Addmission = () => {
           setValues(initialValues);
         }
       } catch (error) {
-        console.log(error);
+        if (error?.response?.status === 401) {
+          swal("Login again ", "error happend", "error");
+          localStorage.removeItem("token");
+          navigate("/");
+        }
       }
     }
   };

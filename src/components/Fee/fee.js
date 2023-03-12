@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./fee.css";
 import axios from "../../api/axios";
 import Pagebanner from "../comman/pagebanner";
@@ -14,8 +15,11 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { feetype } from "../Addmission/data";
 import Feecard from "./feecard";
+import swal from "sweetalert";
 
 const Fee = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
   const fields = {
     variant: "outlined",
     fullWidth: true,
@@ -43,13 +47,23 @@ const Fee = () => {
     e.preventDefault();
     try {
       axios
-        .get(`/student/getroll/${roll}`)
+        .get(`/student/getroll/${roll}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((res) => {
           setData(res?.data.data);
           setFees(res?.data.data.fees);
           setHide(true);
         })
-        .catch((eror) => console.log(eror));
+        .catch((error) => {
+          if (error?.response?.status === 401) {
+            swal("Login again ", "error happend", "error");
+            localStorage.removeItem("token");
+            navigate("/");
+          }
+        });
     } catch (error) {
       console.log(error);
     }
@@ -69,13 +83,18 @@ const Fee = () => {
       const response = await axios.post("student/addfee", formData, {
         headers: {
           "cotent-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
-      console.log(JSON.stringify(response?.data));
+      swal(response.data.message, "", "sucess");
       setValues(initialValues);
       getdata(e);
     } catch (error) {
-      console.log(error);
+      if (error?.response?.status === 401) {
+        swal("Login again ", "error happend", "error");
+        localStorage.removeItem("token");
+        navigate("/");
+      }
     }
   };
   return (

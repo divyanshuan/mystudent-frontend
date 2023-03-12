@@ -1,20 +1,38 @@
 import React, { useState, useEffect } from "react";
 import Pagebanner from "../comman/pagebanner";
+import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
+import { useAuthContextProvider } from "../../Context/Authcontext";
+
 import "./students.css";
 
 import Studentcard from "./studentcard";
 import axios from "../../api/axios";
 
 const Students = () => {
+  const user = useAuthContextProvider();
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
       .get("student/getall", { headers: { Authorization: `Bearer ${token}` } })
-      .then((res) => setData(res?.data.data))
-      .catch((eror) => console.log(eror));
-  }, []);
+      .then((res) => {
+        let data = res?.data.data;
+        data = data.filter((element) => {
+          return element.added_by === user.userdata.location;
+        });
+        setData(data);
+      })
+      .catch((error) => {
+        if (error?.response?.status === 401) {
+          swal("Login again ", "error happend", "error");
+          localStorage.removeItem("token");
+          navigate("/");
+        }
+      });
+  }, [user.userdata.location]);
   return (
     <div className="Student_detail">
       <Pagebanner head="Student" />

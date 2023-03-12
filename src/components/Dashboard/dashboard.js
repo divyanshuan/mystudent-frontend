@@ -4,8 +4,10 @@ import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import "./dashboard.css";
+import logo from "../../assets/logo.jpeg";
 import { useAuthContextProvider } from "../../Context/Authcontext";
 import axios from "../../api/axios";
+import swal from "sweetalert";
 
 const Dashboard = () => {
   const user = useAuthContextProvider();
@@ -13,8 +15,16 @@ const Dashboard = () => {
   const getUser = (token) => {
     axios
       .get(`/user/me`, { headers: { Authorization: `Bearer ${token}` } })
-      .then((res) => user.updateUser(res?.data))
-      .catch((eror) => console.log(eror));
+      .then((res) => {
+        user.updateUser(res?.data);
+      })
+      .catch((eror) => {
+        if (eror?.response?.status === 401) {
+          swal("Error happend", "", "error");
+          localStorage.removeItem("token");
+          navigate("/");
+        }
+      });
   };
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -26,12 +36,7 @@ const Dashboard = () => {
         <div className="nav_section">
           <div className="profile_sec">
             <div className="profile">
-              <img
-                height={60}
-                width={60}
-                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXw3NjA4Mjc3NHx8ZW58MHx8fHw%3D&w=1000&q=80"
-                alt="pr"
-              />
+              <img height={60} width={60} src={logo} alt="pr" />
               <div className="user">
                 <p>{user.userdata.name}</p>
                 <p>{user.userdata.location}</p>

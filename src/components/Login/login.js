@@ -5,10 +5,9 @@ import Pagebanner from "../comman/pagebanner";
 import { useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import swal from "sweetalert";
-import { useAuthContextProvider } from "../../Context/Authcontext";
+import logo from "../../assets/logo.jpeg";
 
 const Login = () => {
-  const user = useAuthContextProvider();
   const [logdata, setLogdata] = useState({ name: "", password: "" });
   const navigate = useNavigate();
   const checkLogin = () => {
@@ -33,7 +32,6 @@ const Login = () => {
         },
       });
       const res = response?.data;
-      console.log(res);
       if (res.code === 4000) {
         const acesstoken = response?.data?.access_token;
         localStorage.setItem("token", acesstoken);
@@ -54,6 +52,7 @@ const Login = () => {
     <>
       <div className="login_body">
         <div className="login_container">
+          <img height={80} width={80} src={logo} alt="pr" />
           <Pagebanner head="login" />
           <form className="login_form">
             <TextField
